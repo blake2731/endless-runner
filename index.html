@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Endless Runner</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #222;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    h1 {
+      margin: 20px;
+    }
+    #gameCanvas {
+      background: #333;
+      display: block;
+      margin: 0 auto;
+      border: 2px solid #555;
+    }
+    #info {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+    #instructions {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Endless Runner</h1>
+  <canvas id="gameCanvas" width="640" height="400"></canvas>
+  <div id="info"></div>
+  <div id="instructions">Press [Space] to jump over obstacles. Avoid collisions!</div>
+  <script src="main.js"></script>
+</body>
+</html>
