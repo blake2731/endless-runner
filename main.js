@@ -216,9 +216,12 @@ function resetGame() {
 
 // ====== SCALING XP REWARD LOGIC =======
 function getXpReward(currentScore) {
-  // A simple formula that grows indefinitely as score increases.
-  // e.g. XP = floor(1 + sqrt(score))
-  return Math.floor(1 + Math.sqrt(currentScore));
+  if (currentScore <= 10) {
+    return currentScore; // Levels 1 to 10 increase by 1 XP
+  }
+
+  // For levels above 10, use a slower exponential growth formula
+  return Math.floor(10 + Math.pow(currentScore - 10, 1.5)); // Adjust exponent to control growth rate
 }
 
 // ====== XP SYSTEM =======
