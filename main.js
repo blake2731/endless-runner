@@ -1,5 +1,6 @@
 /**********************************************
- * ENDLESS RUNNER with XP & LEVEL System
+ * ENDLESS RUNNER with LEVEL SYSTEM & 
+ * SCALING XP REWARD (no upper limit)
  **********************************************/
 
 // ====== CANVAS SETUP =======
@@ -42,7 +43,7 @@ let gameOver = false;
 // ====== XP & LEVEL SYSTEM =======
 let xp = 0;          // current XP
 let level = 1;       // current Level
-let xpToNext = 10;   // XP needed to reach next level
+let xpToNext = 10;   // XP needed to reach the next level
 
 // Try to load highScore from localStorage
 if (localStorage.getItem("endlessRunnerHighScore")) {
@@ -102,8 +103,9 @@ function update() {
         highScore = score;
       }
 
-      // Give XP for each obstacle successfully passed
-      addXp(1);
+      // Give XP (based on score)
+      const reward = getXpReward(score);
+      addXp(reward);
     }
   }
 }
@@ -196,7 +198,7 @@ function endGame() {
 
 // ====== RESET GAME =======
 function resetGame() {
-  // Reset everything
+  // Reset the immediate game state
   player.x = 50;
   player.y = HEIGHT - GROUND_HEIGHT - PLAYER_HEIGHT;
   player.vy = 0;
@@ -205,22 +207,27 @@ function resetGame() {
   frameCount = 0;
   score = 0;
   gameOver = false;
-  // Keep XP & Level progress if you want them persistent across runs.
-  // If you want to reset XP/Level on death, uncomment these lines:
+  
+  // If you want the XP/Level to reset each new game, uncomment below:
   // xp = 0;
   // level = 1;
   // xpToNext = 10;
 }
 
-// ====== XP LOGIC =======
+// ====== SCALING XP REWARD LOGIC =======
+function getXpReward(currentScore) {
+  // A simple formula that grows indefinitely as score increases.
+  // e.g. XP = floor(1 + sqrt(score))
+  return Math.floor(1 + Math.sqrt(currentScore));
+}
+
+// ====== XP SYSTEM =======
 function addXp(amount) {
   xp += amount;
-  // If we meet or exceed the threshold, level up
   while (xp >= xpToNext) {
     xp -= xpToNext;
     level++;
-    // Increase next threshold exponentially (e.g. 1.5x each level)
-    xpToNext = Math.floor(xpToNext * 1.5);
+    xpToNext = Math.floor(xpToNext * 1.5);  // exponential growth
   }
 }
 
